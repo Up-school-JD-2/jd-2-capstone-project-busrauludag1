@@ -1,4 +1,4 @@
-package io.upschool.dto.request;
+package io.upschool.dto.request.ticket;
 
 import io.upschool.entity.Passenger;
 

@@ -29,10 +29,10 @@ public class Ticket {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @Column(name = "start_time")
+    @Column(name = "departed_time")
     private LocalDateTime startedTime;
 
-    @Column(name = "finish_time")
+    @Column(name = "arrived_time")
     private LocalDateTime finishTime;
 
     @Column(name = "price")
@@ -45,7 +45,7 @@ public class Ticket {
     @JoinColumn(name = "passenger_id", nullable = false)
     private Passenger passenger;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flight_id")
     private Flight flight;
 

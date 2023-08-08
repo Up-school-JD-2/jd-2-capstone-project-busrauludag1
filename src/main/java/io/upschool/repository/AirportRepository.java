@@ -12,7 +12,7 @@ public interface AirportRepository extends JpaRepository<Airport, Long> {
     //select * from airports a where a.name = name
     List<Airport> findAllByNameIs(String name);
 
-
+    List<Airport> findByNameContainingIgnoreCase(String name);
 
 
 }

@@ -30,7 +30,4 @@ public class Airport {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<AirwayCompany> companies;
-
 }
