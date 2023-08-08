@@ -1,14 +1,14 @@
-package io.upschool.dto;
+package io.upschool.dto.request;
 
 import io.upschool.entity.Passenger;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class TicketSaveDto {
-    private Passenger passenger;
+public class TicketSaveRequest {
+    private Long passengerId;
+    private Long flightId;
     private LocalDateTime departureTime;
     private LocalDateTime arrivalTime;
+    private Integer seatNumber;
     private Integer price;
 }

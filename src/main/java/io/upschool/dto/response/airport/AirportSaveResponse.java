@@ -1,4 +1,4 @@
-package io.upschool.dto;
+package io.upschool.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @Builder
-public class AirportSaveResponse {
+public class AirportSaveResponse extends BaseResponse{
     private Long id;
     private String nameAndLocation;
 }
