@@ -1,5 +1,7 @@
 package io.upschool.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.upschool.dto.request.AirportRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
+import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "routes")
@@ -19,15 +23,15 @@ public class Route {
     @GeneratedValue
     private Long id;
 
-    //@Column(name = "departed_arrived")
-    //private Airport airport;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "departed_airport", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    private Airport departedAirport;
 
-    //@Column(name = "arrived_airport")
-    //private Airport arrivedAirport;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "arrived_airport", referencedColumnName = "id")
+    @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
+    private Airport arrivedAirport;
 
-    @Column(name = "totalHour")
-    private Integer totalHour;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
 }

@@ -21,11 +21,14 @@ public class Airport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "location", nullable = false, length = 100)
-    private String location;
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "code")
+    private String code;
 
     @Column(name = "is_active")
     private Boolean isActive;

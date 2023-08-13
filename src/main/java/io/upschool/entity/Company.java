@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AirwayCompany {
+public class Company {
 
     @Id
     @GeneratedValue
@@ -26,8 +26,7 @@ public class AirwayCompany {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "airport_id")
-    private List<Airport> airports;
+    @ManyToMany
+    private List<Route> routes;
 
 }

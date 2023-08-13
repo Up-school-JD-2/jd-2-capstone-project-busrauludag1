@@ -1,4 +1,4 @@
-package io.upschool.dto.request.airport;
+package io.upschool.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class AirportSaveRequest {
-    @NotBlank
-    @Size(min = 2, max = 100)
+public class CompanyRequest {
+
+    @NotBlank(message = "Code shouldn't be blank.")
+    @Size(min = 2, max = 50, message = "Name should be min 2 max 50 character.")
     private String name;
-    private String location;
 
 }

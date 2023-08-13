@@ -1,11 +1,10 @@
 package io.upschool.repository;
 
-import io.upschool.entity.AirwayCompany;
+import io.upschool.entity.Company;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AirwayCompanyRepository extends JpaRepository<AirwayCompany, Long> {
-
+public interface CompanyRepository extends JpaRepository<Company, Long> {
 
 }

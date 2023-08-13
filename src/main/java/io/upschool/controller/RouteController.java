@@ -1,0 +1,60 @@
+package io.upschool.controller;
+
+import io.upschool.dto.mapper.AirportMapper;
+import io.upschool.dto.request.RouteRequest;
+import io.upschool.dto.response.AirportResponse;
+import io.upschool.dto.response.RouteResponse;
+import io.upschool.entity.Airport;
+import io.upschool.entity.Route;
+import io.upschool.service.AirportService;
+import io.upschool.service.RouteService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/route")
+@RequiredArgsConstructor
+public class RouteController {
+    private final RouteService routeService;
+
+    private final AirportService airportService;
+
+    private final AirportMapper airportMapper;
+
+    private RouteResponse getRouteResponse(Route route) {
+        AirportResponse departedAirportResponse = airportMapper.toAirportResponse(route.getDepartedAirport());
+        AirportResponse arrivedAirportResponse = airportMapper.toAirportResponse(route.getArrivedAirport());
+
+        return RouteResponse.builder()
+                .arrivedAirport(arrivedAirportResponse)
+                .departedAirport(departedAirportResponse)
+                .id(route.getId())
+                .build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RouteResponse> getRoute(@PathVariable Long id) {
+        Route route = routeService.getById(id);
+        RouteResponse routeResponse = getRouteResponse(route);
+        return ResponseEntity.status(HttpStatus.OK).body(routeResponse);
+    }
+
+    @PostMapping
+    public ResponseEntity<RouteResponse> createRoute(@Valid @RequestBody RouteRequest routeRequest) {
+        Airport departedAirport = airportService.getById(routeRequest.getDepartureId());
+        Airport arrivedAirport = airportService.getById(routeRequest.getArrivalId());
+
+        Route route = new Route();
+        route.setArrivedAirport(arrivedAirport);
+        route.setDepartedAirport(departedAirport);
+
+        Route savedRoute = routeService.save(route);
+
+        RouteResponse routeResponse = getRouteResponse(savedRoute);
+
+        return ResponseEntity.status(HttpStatus.OK).body(routeResponse);
+    }
+}

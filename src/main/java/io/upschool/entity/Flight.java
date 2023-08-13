@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "flights")
 @Data
@@ -20,15 +22,18 @@ public class Flight {
     @Column(name = "number")
     private String number;
 
-    @Column(name = "seat_number")
-    private Integer totalSeatNumber;
+    @Column(name = "seat_capacity")
+    private Integer seatCapacity;
+
+    @Column(name = "available_seat")
+    private Integer availableSeat;
 
     @Column(name = "is_active")
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    private AirwayCompany company;
+    private Company company;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "route_id")

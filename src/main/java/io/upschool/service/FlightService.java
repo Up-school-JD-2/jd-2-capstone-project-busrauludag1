@@ -2,7 +2,7 @@ package io.upschool.service;
 
 import io.upschool.entity.Flight;
 import io.upschool.repository.FlightRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,16 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class FlightService {
     private final FlightRepository flightRepository;
-    private final AirwayCompanyService airwayCompanyService;
 
     public Flight save(Flight flight) {
+        flight.setIsActive(true);
+        flight.setAvailableSeat(flight.getSeatCapacity());
         return flightRepository.save(flight);
     }
 
+    @Transactional(readOnly = true)
+    public Flight getById(Long id) {
+        return flightRepository.getReferenceById(id);
+    }
 
 }

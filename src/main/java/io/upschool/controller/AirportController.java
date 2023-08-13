@@ -1,60 +1,33 @@
 package io.upschool.controller;
 
-import io.upschool.dto.request.airport.AirportSaveRequest;
-import io.upschool.dto.response.airport.AirportSaveResponse;
-import io.upschool.dto.request.airport.AirportUpdateRequest;
+import io.upschool.dto.mapper.AirportMapper;
+import io.upschool.dto.request.AirportRequest;
+import io.upschool.dto.response.AirportResponse;
 import io.upschool.entity.Airport;
 import io.upschool.service.AirportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/airports")
+@RequestMapping("/api/airport")
 @RequiredArgsConstructor
 public class AirportController {
 
     private final AirportService airportService;
 
-    @GetMapping
-    public ResponseEntity<List<Airport>> getAirports() {
-        var airports = airportService.getAllAirports();
-        return ResponseEntity.status(HttpStatus.OK).body(airports);
-    }
-
-    @GetMapping("{name}")
-    public ResponseEntity<List<Airport>> searchAirport(@PathVariable String name){
-        List<Airport> response = airportService.searchByName(name);
-        return ResponseEntity.ok(response);
-    }
+    private final AirportMapper airportMapper;
 
     @PostMapping
-    public ResponseEntity<AirportSaveResponse> createAirport(@Valid @RequestBody AirportSaveRequest request) {
-        var savedAirport = airportService.save(request);
-        return ResponseEntity.ok(savedAirport);
+    public ResponseEntity<AirportResponse> createAirport(@Valid @RequestBody AirportRequest request) {
+        Airport airport = airportService.save(airportMapper.toAirport(request));
+        return ResponseEntity.ok(airportMapper.toAirportResponse(airport));
     }
 
-    @PutMapping
-    public ResponseEntity<AirportSaveResponse> updateAirport(@RequestBody AirportUpdateRequest request) {
-        var updatedAirport = airportService.update(request);
-        return ResponseEntity.ok(updatedAirport);
+    @GetMapping("{id}")
+    public ResponseEntity<AirportResponse> getAirport(@PathVariable Long id){
+        Airport airport = airportService.getById(id);
+        return ResponseEntity.ok(airportMapper.toAirportResponse(airport));
     }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteAirport(@PathVariable("id") Long id) {
-        ResponseEntity<?> response;
-        try {
-            airportService.delete(id);
-            response = new ResponseEntity<>(null, null, HttpStatus.OK);
-        } catch (Exception ex) {
-            response = new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
-        }
-        return response;
-    }
-
-
 }
