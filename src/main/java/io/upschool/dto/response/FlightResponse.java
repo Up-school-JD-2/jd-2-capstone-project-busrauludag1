@@ -25,4 +25,6 @@ public class FlightResponse {
 
     private RouteResponse route;
 
+    private Boolean isActive;
+
 }

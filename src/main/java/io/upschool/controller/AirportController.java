@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/airport")
 @RequiredArgsConstructor
@@ -30,4 +33,31 @@ public class AirportController {
         Airport airport = airportService.getById(id);
         return ResponseEntity.ok(airportMapper.toAirportResponse(airport));
     }
+
+    @GetMapping("/search/city/{city}")
+    public ResponseEntity<List<AirportResponse>> searchAirportByCity(@PathVariable String city) {
+        List<Airport> airports = airportService.findAirportByCity(city);
+        List<AirportResponse> airportResponseList = new ArrayList<>();
+        airports.forEach(airport -> {
+            airportResponseList.add(airportMapper.toAirportResponse(airport));
+        });
+        return ResponseEntity.ok(airportResponseList);
+    }
+
+    @GetMapping("/search/code/{code}")
+    public ResponseEntity<AirportResponse> searchAirportByCode(@PathVariable String code) {
+        Airport airport = airportService.findAirportByCode(code);
+        return ResponseEntity.ok(airportMapper.toAirportResponse(airport));
+    }
+
+    @GetMapping("/search/all")
+    public ResponseEntity<List<AirportResponse>> getAllAirports() {
+        List<Airport> airports = airportService.getAll();
+        List<AirportResponse> airportResponses = new ArrayList<>();
+        airports.forEach(airport -> {
+            airportResponses.add(airportMapper.toAirportResponse(airport));
+        });
+        return ResponseEntity.ok(airportResponses);
+    }
+
 }

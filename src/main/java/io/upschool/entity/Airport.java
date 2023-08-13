@@ -27,7 +27,7 @@ public class Airport {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "is_active")

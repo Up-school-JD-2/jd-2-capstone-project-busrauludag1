@@ -18,13 +18,12 @@ public class FlightRequest {
     @Size(min = 6, max = 6, message = "Flight number should be 6 character.")
     private String number;
 
-    @NotBlank(message = "Code shouldn't be blank.")
     @Min(value = 10, message = "Seat capacity shouldn't be lower than 10")
     @Max(value = 300, message = "Seat capacity shouldn't be greater than 300")
     private Integer seatCapacity;
 
     @NotNull(message = "Company ID shouldn't be empty.")
-    private Long companyID;
+    private Long companyId;
 
     @NotNull(message = "Route ID shouldn't be empty.")
     private Long routeId;

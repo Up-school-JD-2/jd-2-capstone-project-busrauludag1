@@ -1,6 +1,7 @@
 package io.upschool.controller;
 
 import io.upschool.dto.mapper.AirportMapper;
+import io.upschool.dto.mapper.RouteMapper;
 import io.upschool.dto.request.RouteRequest;
 import io.upschool.dto.response.AirportResponse;
 import io.upschool.dto.response.RouteResponse;
@@ -14,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/route")
 @RequiredArgsConstructor
@@ -23,6 +27,8 @@ public class RouteController {
     private final AirportService airportService;
 
     private final AirportMapper airportMapper;
+
+    private final RouteMapper routeMapper;
 
     private RouteResponse getRouteResponse(Route route) {
         AirportResponse departedAirportResponse = airportMapper.toAirportResponse(route.getDepartedAirport());
@@ -40,6 +46,16 @@ public class RouteController {
         Route route = routeService.getById(id);
         RouteResponse routeResponse = getRouteResponse(route);
         return ResponseEntity.status(HttpStatus.OK).body(routeResponse);
+    }
+
+    @GetMapping("/search/all")
+    public ResponseEntity<List<RouteResponse>> getAllRoutes() {
+        List<Route> routes = routeService.getAll();
+        List<RouteResponse> routeResponses = new ArrayList<>();
+        routes.forEach(route -> {
+            routeResponses.add(routeMapper.toRouteResponse(route));
+        });
+        return ResponseEntity.status(HttpStatus.OK).body(routeResponses);
     }
 
     @PostMapping

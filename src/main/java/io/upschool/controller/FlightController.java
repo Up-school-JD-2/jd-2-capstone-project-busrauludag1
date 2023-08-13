@@ -17,6 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/flight")
 @RequiredArgsConstructor
@@ -43,13 +46,14 @@ public class FlightController {
                 .seatCapacity(flight.getSeatCapacity())
                 .id(flight.getId())
                 .number(flight.getNumber())
+                .isActive(flight.getIsActive())
                 .build();
     }
 
     @PostMapping
     private ResponseEntity<FlightResponse> createFlight(@Valid @RequestBody FlightRequest flightRequest) {
 
-        Company company = companyService.getById(flightRequest.getCompanyID());
+        Company company = companyService.getById(flightRequest.getCompanyId());
         Route route = routeService.getById(flightRequest.getRouteId());
 
         Flight flight = Flight.builder()
@@ -68,10 +72,18 @@ public class FlightController {
     @GetMapping("{id}")
     public ResponseEntity<FlightResponse> getFlight(@PathVariable Long id){
         Flight flight = flightService.getById(id);
-
         FlightResponse flightResponse = getFlightResponse(flight);
-
         return ResponseEntity.ok(flightResponse);
+    }
+
+    @GetMapping("/search/all")
+    public ResponseEntity<List<FlightResponse>> getAllFlight() {
+        List<Flight> flights = flightService.getAll();
+        List<FlightResponse> flightResponses = new ArrayList<>();
+        flights.forEach(flight -> {
+            flightResponses.add(getFlightResponse(flight));
+        });
+        return ResponseEntity.ok(flightResponses);
     }
 
 }

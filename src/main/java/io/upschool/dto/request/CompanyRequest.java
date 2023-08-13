@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CompanyRequest {
 
-    @NotBlank(message = "Code shouldn't be blank.")
+    @NotBlank(message = "Name shouldn't be blank.")
     @Size(min = 2, max = 50, message = "Name should be min 2 max 50 character.")
     private String name;
 

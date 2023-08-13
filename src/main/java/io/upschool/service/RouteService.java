@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -23,4 +25,9 @@ public class RouteService {
     public Route getById(Long id) {
         return routeRepository.getReferenceById(id);
     }
+
+    public List<Route> getAll(){
+        return routeRepository.findAll();
+    }
+
 }

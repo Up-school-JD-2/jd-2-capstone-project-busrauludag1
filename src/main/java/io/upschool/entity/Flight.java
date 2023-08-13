@@ -19,7 +19,7 @@ public class Flight {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "number")
+    @Column(name = "number", unique = true)
     private String number;
 
     @Column(name = "seat_capacity")

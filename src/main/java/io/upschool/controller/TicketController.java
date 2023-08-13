@@ -5,17 +5,16 @@ import io.upschool.dto.request.TicketRequest;
 import io.upschool.dto.response.*;
 import io.upschool.entity.Flight;
 import io.upschool.entity.Passenger;
-import io.upschool.entity.Route;
 import io.upschool.entity.Ticket;
 import io.upschool.service.FlightService;
 import io.upschool.service.PassengerService;
 import io.upschool.service.TicketService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,6 +27,7 @@ public class TicketController {
     private final PassengerService passengerService;
 
     private final FlightService flightService;
+
     private final PassengerMapper passengerMapper;
 
     private final CompanyMapper companyMapper;
@@ -64,6 +64,16 @@ public class TicketController {
         Ticket ticket = ticketService.getById(id);
         TicketResponse ticketResponse = getTicketResponse(ticket);
         return ResponseEntity.status(HttpStatus.OK).body(ticketResponse);
+    }
+
+    @GetMapping("/search/all")
+    public ResponseEntity<List<TicketResponse>> getAllTickets() {
+        List<Ticket> tickets = ticketService.getAll();
+        List<TicketResponse> ticketResponses = new ArrayList<>();
+        tickets.forEach(ticket -> {
+            ticketResponses.add(getTicketResponse(ticket));
+        });
+        return ResponseEntity.status(HttpStatus.OK).body(ticketResponses);
     }
 
     @PostMapping

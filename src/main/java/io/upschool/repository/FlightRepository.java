@@ -11,10 +11,7 @@ import java.util.Optional;
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
 
-    @Query(value = "select f from Flight f where f.company.name = :companyName")
-    Optional<Flight> findByCompany_Name(@Param("companyName") String name);
-
-    @Query(value = "select count(f) from Flight f")
-    int findFlightCount();
+    @Query(value = "select count(f) from Flight f " + "where f.number = :number")
+    int findFlightCountByNumber(@Param("number") String number);
 
 }
