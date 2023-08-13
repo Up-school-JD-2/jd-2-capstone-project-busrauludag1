@@ -1,8 +1,6 @@
 package io.upschool.service;
 
-import io.upschool.dto.request.CompanyRequest;
 import io.upschool.entity.Company;
-import io.upschool.exception.AirwayCompanyAlreadySavedException;
 import io.upschool.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,7 @@ public class CompanyService {
 
     public Company save(Company company) {
         if(isCompanyAlreadySaved(company))
-            throw new AirwayCompanyAlreadySavedException("This company is already saved.");
+            throw new RuntimeException("This company is already saved.");
         else {
             company.setIsActive(true);
             return companyRepository.save(company);

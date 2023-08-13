@@ -1,11 +1,6 @@
 package io.upschool.service;
 
-import io.upschool.dto.request.TicketRequest;
-import io.upschool.entity.Flight;
-import io.upschool.entity.Passenger;
-import io.upschool.entity.Route;
 import io.upschool.entity.Ticket;
-import io.upschool.exception.TicketAlreadySavedException;
 import io.upschool.repository.TicketRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +14,6 @@ import java.util.List;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
-    private final FlightService flightService;
-    private final PassengerService passengerService;
 
     private boolean isTicketAlreadySaved(Ticket ticket){
         int ticketCountByTitle = ticketRepository.findTicketCountByTicketNumber(ticket.getNumber());

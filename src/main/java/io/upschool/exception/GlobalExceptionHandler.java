@@ -1,5 +1,6 @@
 package io.upschool.exception;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import io.upschool.dto.response.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,22 +23,20 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, List<String>>> handleValidationErrors(MethodArgumentNotValidException ex) {
         List<String> errors = ex.getBindingResult().getFieldErrors()
                 .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
-
         Map<String, List<String>> errorResponse = new HashMap<>();
         errorResponse.put("errors", errors);
-
         return new ResponseEntity<>(errorResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Object> handleAll(final Exception exception, final WebRequest request) {
-        System.out.println("Error occurred. MESSAGE:" + exception.getMessage());
-        var response = BaseResponse.builder()
+    public ResponseEntity<Object> handleAllRuntimeException(final Exception exception) {
+        BaseResponse<?> response = BaseResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(exception.getMessage())
                 .isSuccess(false)
                 .build();
         return ResponseEntity.badRequest().body(response);
     }
+
 
 }

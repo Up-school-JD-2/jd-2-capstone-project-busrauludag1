@@ -15,6 +15,7 @@ import lombok.*;
 @Builder
 public class FlightRequest {
 
+    @NotBlank(message = "Flight number shouldn't be blank.")
     @Size(min = 6, max = 6, message = "Flight number should be 6 character.")
     private String number;
 

@@ -28,6 +28,7 @@ public class PassengerRequest {
     @Pattern(regexp = "^(05)([0-9]{2})\s?([0-9]{3})\s?([0-9]{2})\s?([0-9]{2})$", message = "Mobile number is wrong.")
     private String mobileNumber;
 
+    @NotBlank(message = "Credit card number shouldn't be blank.")
     @Pattern(regexp = "^([0-9]{16}$|([0-9]{4}.[0-9]{4}.[0-9]{4}.[0-9]{4})$|([0-9]{4},[0-9]{4},[0-9]{4},[0-9]{4})$|([0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}))$", message = "Credit card is not valid.")
     private String creditCard;
 }
