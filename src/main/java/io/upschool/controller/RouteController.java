@@ -63,11 +63,6 @@ public class RouteController {
         Airport departedAirport = airportService.getById(routeRequest.getDepartureId());
         Airport arrivedAirport = airportService.getById(routeRequest.getArrivalId());
 
-        if (airportService.isAirportExist(departedAirport.getId()))
-            throw new RuntimeException("There is no such airport ID for departure airport.");
-        else if (airportService.isAirportExist(arrivedAirport.getId()))
-            throw new RuntimeException("There is no such airport ID for arrival airport.");
-
         Route route = new Route();
         route.setArrivedAirport(arrivedAirport);
         route.setDepartedAirport(departedAirport);

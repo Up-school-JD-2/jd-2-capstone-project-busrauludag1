@@ -1,12 +1,14 @@
 package io.upschool.service;
 
 import io.upschool.entity.Airport;
+import io.upschool.entity.Ticket;
 import io.upschool.repository.AirportRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +17,11 @@ public class AirportService {
     private final AirportRepository airportRepository;
 
     public Airport getById(Long id) {
-        return airportRepository.getReferenceById(id);
+        Optional<Airport> airportOpt = airportRepository.findById(id);
+        if (airportOpt.isEmpty()) {
+            throw new RuntimeException(id + " airport ID is not found.");
+        }
+        return airportOpt.get();
     }
 
     public Airport save(Airport airport) {

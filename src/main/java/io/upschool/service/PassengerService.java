@@ -3,6 +3,7 @@ package io.upschool.service;
 import io.upschool.entity.Airport;
 import io.upschool.entity.Flight;
 import io.upschool.entity.Passenger;
+import io.upschool.entity.Ticket;
 import io.upschool.repository.PassengerRepository;
 import io.upschool.util.StringUtil;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +38,11 @@ public class PassengerService {
     }
 
     public Passenger getById(Long id) {
-        return passengerRepository.getReferenceById(id);
+        Optional<Passenger> passengerOpt = passengerRepository.findById(id);
+        if (passengerOpt.isEmpty()) {
+            throw new RuntimeException(id + " passenger ID is not found.");
+        }
+        return passengerOpt.get();
     }
 
     public List<Passenger> getAll(){

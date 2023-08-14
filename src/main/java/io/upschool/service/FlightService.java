@@ -2,12 +2,14 @@ package io.upschool.service;
 
 import io.upschool.entity.Company;
 import io.upschool.entity.Flight;
+import io.upschool.entity.Ticket;
 import io.upschool.repository.FlightRepository;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +32,12 @@ public class FlightService {
         return flightCountByName > 0;
     }
 
-    @Transactional(readOnly = true)
     public Flight getById(Long id) {
-        return flightRepository.getReferenceById(id);
+        Optional<Flight> flightOpt = flightRepository.findById(id);
+        if (flightOpt.isEmpty()) {
+            throw new RuntimeException(id + " flight ID is not found.");
+        }
+        return flightOpt.get();
     }
 
     public List<Flight> getAll() {

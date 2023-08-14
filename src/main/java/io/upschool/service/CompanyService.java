@@ -1,12 +1,14 @@
 package io.upschool.service;
 
 import io.upschool.entity.Company;
+import io.upschool.entity.Ticket;
 import io.upschool.repository.CompanyRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +31,11 @@ public class CompanyService {
     }
 
     public Company getById(Long id) {
-        return companyRepository.getReferenceById(id);
+        Optional<Company> companyOpt = companyRepository.findById(id);
+        if (companyOpt.isEmpty()) {
+            throw new RuntimeException(id + " company ID is not found.");
+        }
+        return companyOpt.get();
     }
 
     public List<Company> getAll() {

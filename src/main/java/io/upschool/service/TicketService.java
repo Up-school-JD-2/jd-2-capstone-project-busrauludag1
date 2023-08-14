@@ -2,11 +2,13 @@ package io.upschool.service;
 
 import io.upschool.entity.Ticket;
 import io.upschool.repository.TicketRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,11 @@ public class TicketService {
     }
 
     public Ticket getById(Long id) {
-        return ticketRepository.getReferenceById(id);
+        Optional<Ticket> ticketOpt = ticketRepository.findById(id);
+        if (ticketOpt.isEmpty()) {
+            throw new RuntimeException(id + " ticket ID is not found.");
+        }
+        return ticketOpt.get();
     }
 
     public List<Ticket> getAll(){
